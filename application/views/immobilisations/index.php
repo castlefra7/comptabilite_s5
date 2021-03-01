@@ -2,7 +2,12 @@
     <div class="row">
         <div class="col-md-12">
             <h1>Liste des immobilisations</h1>
-            <a class="btn btn-primary btn-sm" href="<?php echo base_url("immo/insertPage"); ?>">Insertion immobilisation</a>
+            <div>
+            <a class="btn btn-primary btn-sm" href="<?php echo base_url("immo/insertPage"); ?>">Saisi immobilisation</a>
+            <a class="btn btn-primary btn-sm" href="<?php echo base_url("immo/insetMaintPage"); ?>">Saisi maintenance</a>
+            <a class="btn btn-primary btn-sm" href="<?php echo base_url("immo/insetMaintPage"); ?>">Saisi inventaire</a>
+
+            </div>
 
             <table class="table mt-2">
                 <thead>
