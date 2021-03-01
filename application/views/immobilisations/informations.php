@@ -93,11 +93,17 @@ if (isset($_GET["period"])) {
                     </div>
                     <input type="submit" class="btn btn-block btn-sm btn-primary" value="Valider">
                 </form>
+                <br>
 
-                <div class="form-group">
-                    <label for="">Montant:</label>
-                    <input readonly type="text" class="form-control input-lg" value="<?php echo format_number($currentAmount); ?>">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Montant : </h5>
+                        <h3 class="text-right">
+                            <?php echo format_number($currentAmount);?>
+                        </h3>
+                    </div>
                 </div>
+
             </div>
 
         </div>
@@ -180,8 +186,8 @@ if (isset($_GET["period"])) {
                                 <td class="text-right"><?php echo format_number($amortissementsDeg[$iA]->getCumulDebut()); ?></td>
                                 <td class="text-right"><?php echo format_number($amortissementsDeg[$iA]->getDotation()); ?></td>
                                 <td class="text-right"><?php echo format_number($amortissementsDeg[$iA]->getCumulFin()); ?></td>
-                                <td class="text-right"><?php echo format_number($amortissementsDeg[$iA]->getTauxDegressif()); ?></td>
-                                <td class="text-right"><?php echo format_number($amortissementsDeg[$iA]->getTauxLineaire()); ?></td>
+                                <td class="text-right"><?php echo percent($amortissementsDeg[$iA]->getTauxDegressif()); ?></td>
+                                <td class="text-right"><?php echo percent($amortissementsDeg[$iA]->getTauxLineaire()); ?></td>
                                 <td class="text-right"><?php echo format_number($amortissementsDeg[$iA]->getValeurNette()); ?></td>
                                 <td class="text-right"><?php echo $amortissementsDeg[$iA]->getBegin_date()->format("d/m/y"); ?></td>
                             </tr>
