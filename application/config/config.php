@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/comptabilite_s5';
+$config['base_url'] = 'http://10.22.255.51:8888/';
 
 /*
 |--------------------------------------------------------------------------

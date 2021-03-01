@@ -1,4 +1,6 @@
-
+<?php
+$currDt = new DateTime();
+?>
     <div class="container my-3">
         <div class="row">
             <div class="col-md-6">
@@ -14,7 +16,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Date sortie</label>
-                        <input name="date" class="form-control form-control-sm" type="date">
+                        <input name="date" class="form-control form-control-sm" type="date" value="<?php echo $currDt->format("Y-m-d"); ?>">
                     </div>
                     <div class="form-group">
                         <label for="">Quantité</label>
