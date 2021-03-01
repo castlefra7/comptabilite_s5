@@ -180,8 +180,8 @@ if (isset($_GET["period"])) {
                                 <td class="text-right"><?php echo format_number($amortissementsDeg[$iA]->getCumulDebut()); ?></td>
                                 <td class="text-right"><?php echo format_number($amortissementsDeg[$iA]->getDotation()); ?></td>
                                 <td class="text-right"><?php echo format_number($amortissementsDeg[$iA]->getCumulFin()); ?></td>
-                                <td class="text-right"><?php echo format_number($amortissementsDeg[$iA]->getTauxDegressif()); ?></td>
-                                <td class="text-right"><?php echo format_number($amortissementsDeg[$iA]->getTauxLineaire()); ?></td>
+                                <td class="text-right"><?php echo percent($amortissementsDeg[$iA]->getTauxDegressif()); ?></td>
+                                <td class="text-right"><?php echo percent($amortissementsDeg[$iA]->getTauxLineaire()); ?></td>
                                 <td class="text-right"><?php echo format_number($amortissementsDeg[$iA]->getValeurNette()); ?></td>
                                 <td class="text-right"><?php echo $amortissementsDeg[$iA]->getBegin_date()->format("d/m/y"); ?></td>
                             </tr>

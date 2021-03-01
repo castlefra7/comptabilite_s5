@@ -50,6 +50,6 @@ function format_number($number) {
 }
 
 function percent($number) {
-    $percent = $number * 100;
+    $percent = round($number * 100, 2);
     return "$percent%";
 }
