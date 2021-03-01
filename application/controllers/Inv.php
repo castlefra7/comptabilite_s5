@@ -58,4 +58,16 @@ class Inv extends Base_Controller
 
         $this->load->view($this->template, $data);
     }
+
+    public function insertProductPage() {
+        $data = array();
+        $data["content"] = "inventories/insert_product";
+        $this->load->view($this->template, $data);
+    }
+
+    public function insertProduct() {
+        $new_product = $this->product_model->instantiate($this->input->post("code"), $this->input->post("name"), $this->input->post("method"));
+        $new_product->insert();
+        redirect("/inv/index");
+    }
 }

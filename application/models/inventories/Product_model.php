@@ -9,6 +9,20 @@ class Product_model extends Base_Model
     public $inventory_method;
 
 
+    public function instantiate($_code, $_name, $_method) {
+        $new_product = new Product_model();
+        $new_product->code = $_code;
+        $new_product->name = $_name;
+        $new_product->inventory_method = $_method;
+        return $new_product;
+    }
+
+    public function insert() {
+        $sql = "insert into products (code, name, inventory_method) values (%s, %s, %s)";
+        $sql = sprintf($sql, $this->db->escape($this->getCode()), $this->db->escape($this->getName()), $this->db->escape($this->getInventory_method()));
+        $this->db->query($sql);
+    }
+
     public function insertIn($_product_id, $_date, $_quantity, $_unit_price)
     {
         $product = $this->getProduct($_product_id);
@@ -114,5 +128,65 @@ class Product_model extends Base_Model
             $result[] = $newObject;
         }
         return $result;
+    }
+
+    /**
+     * Get the value of code
+     */ 
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set the value of code
+     *
+     * @return  self
+     */ 
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of name
+     */ 
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set the value of name
+     *
+     * @return  self
+     */ 
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of inventory_method
+     */ 
+    public function getInventory_method()
+    {
+        return $this->inventory_method;
+    }
+
+    /**
+     * Set the value of inventory_method
+     *
+     * @return  self
+     */ 
+    public function setInventory_method($inventory_method)
+    {
+        $this->inventory_method = $inventory_method;
+
+        return $this;
     }
 }
