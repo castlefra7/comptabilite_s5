@@ -21,7 +21,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Prix unitaire à ce jour</h5>
                                 <p class="card-text">
-                                    <?php echo $inv_info->unit_price; ?> Ar
+                                    <?php echo format_number($inv_info->unit_price); ?> Ar
                                 </p>
                             </div>
                         </div>
@@ -29,7 +29,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Quantité</h5>
                                 <p class="card-text">
-                                    <?php echo $inv_info->quantity; ?> Ar
+                                    <?php echo format_number($inv_info->quantity); ?> Ar
                                 </p>
                             </div>
                         </div>
@@ -37,7 +37,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Valeur du stock</h5>
                                 <p class="card-text">
-                                    <?php echo $inv_info->amount; ?> Ar
+                                    <?php echo format_number($inv_info->amount); ?> Ar
                                 </p>
                             </div>
                         </div>
@@ -52,9 +52,9 @@
                         <tr>
                             <th scope="col">Opération</th>
                             <th scope="col">Date</th>
-                            <th scope="col">Prix Unitaire</th>
-                            <th scope="col">Quantité</th>
-                            <th scope="col">Montant</th>
+                            <th scope="col" class="text-right">Prix Unitaire</th>
+                            <th scope="col" class="text-right">Quantité</th>
+                            <th scope="col" class="text-right">Montant</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,9 +62,9 @@
                             <tr>
                                 <td><?php echo $entry->type; ?></td>
                                 <td><?php echo $entry->date_inv; ?></td>
-                                <td><?php echo $entry->unit_price; ?> Ar</td>
-                                <td><?php echo $entry->quantity; ?></td>
-                                <td><?php echo $entry->amount; ?> Ar</td>
+                                <td class="text-right"><?php echo format_number($entry->unit_price); ?> Ar</td>
+                                <td class="text-right"><?php echo $entry->quantity; ?></td>
+                                <td class="text-right"><?php echo format_number($entry->amount); ?> Ar</td>
                             </tr>
                         <?php } ?>
                     </tbody>

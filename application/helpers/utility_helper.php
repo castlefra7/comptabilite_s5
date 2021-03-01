@@ -44,3 +44,12 @@ function getRemainingDaysInaMonth($date) {
 function getNumberDaysDiff($dt1, $dt2) {
     return $dt1->diff($dt2)->format("%a")+1;
 }
+
+function format_number($number) {
+    return number_format($number, 2, ",", " ");
+}
+
+function percent($number) {
+    $percent = $number * 100;
+    return "$percent%";
+}

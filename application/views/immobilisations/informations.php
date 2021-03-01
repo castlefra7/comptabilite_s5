@@ -131,27 +131,27 @@ if (isset($_GET["period"])) {
         </div>
         <?php if ($immo->amortissed_type == 1) { ?>
             <div class="col-md-12">
-                <h2>Tableau d'amortissements linéaire</h2>
+                <h2>Tableau d'amortissements linéaire (Ar)</h2>
 
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Cumul début</th>
-                            <th scope="col">Dotation</th>
-                            <th scope="col">Cumul fin</th>
-                            <th scope="col">taux</th>
-                            <th scope="col">Valeur nette</th>
+                            <th scope="col" class="text-right">Cumul début</th>
+                            <th scope="col" class="text-right">Dotation</th>
+                            <th scope="col" class="text-right">Cumul fin</th>
+                            <th scope="col" class="text-right">taux</th>
+                            <th scope="col" class="text-right">Valeur nette</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php for ($iA = 0; $iA < $lengthLin; $iA++) { ?>
                             <tr>
-                                <td><?php echo $amortLin[$iA]->getCumulDebut(); ?></td>
-                                <td><?php echo $amortLin[$iA]->getDotation(); ?></td>
-                                <td><?php echo $amortLin[$iA]->getCumulFin(); ?></td>
-                                <td><?php echo $amortLin[$iA]->getTaux(); ?></td>
-                                <td><?php echo ($amortLin[$iA]->getValeurNette()); ?></td>
-                                <td><?php echo $amortLin[$iA]->begin_date->format("d/m/Y"); ?></td>
+                                <td class="text-right"><?php echo format_number($amortLin[$iA]->getCumulDebut()); ?></td>
+                                <td class="text-right"><?php echo format_number($amortLin[$iA]->getDotation()); ?></td>
+                                <td class="text-right"><?php echo format_number($amortLin[$iA]->getCumulFin()); ?></td>
+                                <td class="text-right"><?php echo percent($amortLin[$iA]->getTaux()); ?></td>
+                                <td class="text-right"><?php echo format_number($amortLin[$iA]->getValeurNette()); ?></td>
+                                <td class="text-right"><?php echo $amortLin[$iA]->begin_date->format("d/m/Y"); ?></td>
                             </tr>
                         <?php } ?>
                     </tbody>
@@ -176,7 +176,7 @@ if (isset($_GET["period"])) {
                     <tbody>
                         <?php for ($iA = 0; $iA < $lengthDeg; $iA++) { ?>
                             <tr>
-                                <td><?php echo $amortissementsDeg[$iA]->getInitialValue(); ?></td>
+                                <td><?php echo format_number($amortissementsDeg[$iA]->getInitialValue()); ?></td>
                                 <td><?php echo $amortissementsDeg[$iA]->getCumulDebut(); ?></td>
                                 <td><?php echo $amortissementsDeg[$iA]->getDotation(); ?></td>
                                 <td><?php echo $amortissementsDeg[$iA]->getCumulFin(); ?></td>
