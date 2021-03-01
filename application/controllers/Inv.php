@@ -33,12 +33,12 @@ class Inv extends Base_Controller
     public function out() {
         $data = array();
         $this->product_model->insertOut($this->input->post("product"), $this->input->post("date"), $this->input->post("quantity"));
-        // redirect("/inv/index");
+        redirect("/inv/index");
     }
 
     public function in() {
         $this->product_model->insertIn($this->input->post("product"), $this->input->post("date"), $this->input->post("quantity"), $this->input->post("unit-price"));
-        // redirect("/inv/index");
+        redirect("/inv/index");
     }
 
     public function outPage()

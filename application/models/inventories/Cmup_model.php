@@ -6,12 +6,16 @@ class Cmup_model extends Base_Model {
     public $amount;
     public $date_cmup;
 
-    public function calculateCmup($product_id) {
+    public function calculateCmup($product_id, $_first_unit_price) {
         $sql = "select ((select sum(amount) from inventory_in where product_id = %d) - (select sum(amount) from inventory_out where product_id = %d)) / ((select sum(quantity) from inventory_in where product_id = %d) - (select sum(quantity) from inventory_out where product_id = %d)) as cmup";
         $sql = sprintf($sql, $product_id, $product_id, $product_id, $product_id);
         $query = $this->db->query($sql);
         $row = $query->row_array();
+        var_dump($row);
         if($row) {
+            if($row["cmup"] == null) {
+                return $_first_unit_price;
+            }
             return $row["cmup"];
         }
         return 0;
@@ -19,7 +23,7 @@ class Cmup_model extends Base_Model {
 
     public function insert() {
         $sql = "insert into cmup (product_id, amount, date_cmup) values (%d, %d, %s)";
-        $sql = sprintf($sql,$this->id, $this->amount, $this->date_cmup);
+        $sql = sprintf($sql,$this->product_id, $this->amount, $this->date_cmup);
         $this->db->query($sql);
     }
 
@@ -64,7 +68,7 @@ class Cmup_model extends Base_Model {
             // 2eme phase: calculer le FIFO
             $montantFinal = 0;
             while($iO < $length) {
-                if($currObj->quantite >= $quantity_out) {
+                if($currObj->quantity >= $quantity_out) {
                     $montantFinal += ($quantity_out * $currObj->unit_price);
                     break;
                 } else {

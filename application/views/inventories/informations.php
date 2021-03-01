@@ -29,7 +29,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Quantité</h5>
                                 <p class="card-text">
-                                    <?php echo format_number($inv_info->quantity); ?> Ar
+                                    <?php echo $inv_info->quantity; ?>
                                 </p>
                             </div>
                         </div>

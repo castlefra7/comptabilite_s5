@@ -11,8 +11,14 @@ class Inventory_model extends Base_Model
     public $type;
 
 
+    public function insertInventoryOut() {
+        $sql = "insert into inventory_out (product_id, quantity, amount, unit_price, date_out) values (%d, %d, %d, %d, %s)";
+        $sql = sprintf($sql, $this->product_id, $this->quantity, $this->amount, $this->unit_price, $this->db->escape($this->date_inv));
+        $this->db->query($sql);
+    }
+
     public function insertInventoryIn() {
-        $sql = "insert into inventory_in (product_id, unit_price, quantity, amount, date_in) values (%d, %d, %d, %s)";
+        $sql = "insert into inventory_in (product_id, unit_price, quantity, amount, date_in) values (%d, %d, %d, %d, %s)";
         $sql = sprintf($sql, $this->product_id, $this->unit_price, $this->quantity, $this->amount, $this->db->escape($this->date_inv));
         $this->db->query($sql);
     }

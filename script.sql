@@ -123,7 +123,8 @@ insert into products (name, inventory_method, code) values
 ('Imprimante', 'CMUP', 'p001'),
 ('Encre Laser', 'CMUP', 'p002'),
 ('Unite Centrale', 'CMUP', 'p003'),
-('Clavier', 'CMUP', 'p004');
+('Clavier', 'CMUP', 'p004'),
+('Souris', 'FIFO', 'p005');
 
 insert into inventory_in (product_id, unit_price, quantity, amount, date_in) values 
 (1, 5000, 5, 25000, "2021-02-01"),
