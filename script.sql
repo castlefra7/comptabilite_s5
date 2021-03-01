@@ -145,10 +145,10 @@ INSERT INTO services (name) VALUES
 ("Tresorerie"),
 ("Ressources Humaines");
 
-INSERT INTO immobilisations (code, designation, buy_date, usage_date, supplier_id, buy_price, amortissed_year, amortissed_rate, amortissed_type) VALUES
-("i001", "Toyota V8", "2021-02-01", "2021-02-02", "1", 160000000, 5, 20, "1"),
-("i002", "Pneus de rechange", "2021-02-01", "2021-02-01", "2", 60000, 6, 20, "2"),
-("i003", "Test", "2021-02-01", "2021-02-01", "1", 160000000, 7, 20, "1");
+INSERT INTO immobilisations (code, designation, buy_date, usage_date, supplier_id, buy_price, amortissed_year, amortissed_rate, amortissed_type, coefficient) VALUES
+("i001", "Toyota V8", "2021-02-01", "2021-02-02", "1", 160000000, 5, 0.2, "1", 1.75),
+("i002", "Pneus de rechange", "2021-02-01", "2021-02-01", "2", 60000, 6, 0.2, "2", 1.75),
+("i003", "Test", "2021-02-01", "2021-02-01", "1", 160000000, 7, 0.2, "1", 1.75);
 
 INSERT INTO inventories (immo_id, inv_date, inv_state, description) values
 (1, "2021-03-01", "Moyen", "Mila manolo pompe essence"),
