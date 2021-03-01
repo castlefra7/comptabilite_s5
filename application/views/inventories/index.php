@@ -24,7 +24,7 @@
                         <td scope="row"><?php echo $product->name; ?></td>
                         <td scope="row"><?php echo $product->inventory_method; ?></td>
                         <td scope="row">
-                            <a href="<?php echo base_url("/inv/infos/$product->id"); ?>" class="btn btn-primary btn-sm">Détails</a>
+                            <a href="<?php echo base_url("inv/infos/$product->id"); ?>" class="btn btn-primary btn-sm">Détails</a>
                         </td>
                     </tr>
                     <?php } ?>

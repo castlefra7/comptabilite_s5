@@ -22,8 +22,6 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="<?php echo base_url("immo"); ?>">Immobilisations</a>
                     </li>
-                  
-                    
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="<?php echo base_url("inv/"); ?>">Stock</a>
                     </li>

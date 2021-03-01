@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-6">
                 <h1>Sortie de stock</h1>
-                <form action="/inv/out" method="post">
+                <form action="<?php echo base_url("/inv/out"); ?>" method="post">
                     <div class="form-group">
                         <label for="">Produit</label>
                         <select name="product" id="" class="form-control form-control-sm">

@@ -80,13 +80,13 @@ if (isset($_GET["period"])) {
                 </div>
             </form>
 
-            <a href="/immo/histories/<?php echo $immo->code; ?>" class="btn btn-primary btn-sm">Historiques</a>
+            <a href="<?php echo base_url("/immo/histories/$immo->code"); ?>" class="btn btn-primary btn-sm">Historiques</a>
 
-            <a href="/immo/histories/<?php echo $immo->code; ?>" class="btn btn-primary btn-sm">Energies</a>
+            <a href="<?php echo base_url("/immo/histories/$immo->code"); ?>" class="btn btn-primary btn-sm">Energies</a>
             <div class="mt-5">
                 <h2>Valeur immobilisation</h2>
 
-                <form action="/immo/detailsInfo/<?php echo $immo->code; // TODO CURRENT DATE ?>" style="width: 12rem;">
+                <form action="<?php echo base_url("/immo/detailsInfo/$immo->code");?>" style="width: 12rem;">
                     <div class="form-group">
                         <label for="">Date:</label>
                         <input name="date" type="date" value="<?php echo $currentDate->format("Y-m-d"); ?>" class="form-control form-control-sm">
@@ -107,7 +107,7 @@ if (isset($_GET["period"])) {
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <form action="/immo/detailsInfo/<?php echo $immo->code; ?>" method="get" class="my-2">
+            <form action="<?php echo base_url("/immo/detailsInfo/$immo->code"); ?>" method="get" class="my-2">
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="period" id="period1" value="1" <?php echo $period == 1 ? "checked" : "" ?>>
                     <label class="form-check-label" for="period1">

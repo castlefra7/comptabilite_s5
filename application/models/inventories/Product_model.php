@@ -11,17 +11,27 @@ class Product_model extends Base_Model
 
     public function insertIn($_product_id, $_date, $_quantity, $_unit_price)
     {
-        // if product inventory_method is CMUP then insert into CMUP table
         $product = $this->getProduct($_product_id);
-        $cmup_model = new Cmup_Model();
 
         if ($product->inventory_method == 'CMUP') {
-            $cmup = $cmup_model->calculateCmup($_product_id);
-            // TODO insert cmup
+            $new_Cmup = new Cmup_model();
+            $cmupValue = $new_Cmup->calculateCmup($_product_id);
+            $new_Cmup->product_id = $product->id;
+            $new_Cmup->amount = $cmupValue;
+            $new_Cmup->date_cmup = $_date;
+
+            $new_Cmup->insert();
         }
 
-        // TODO INSERT inv_in
+        $inv_in = new Inventory_model();
+        $inv_in->product_id = $_product_id;
+        $inv_in->unit_price = $_unit_price;
+        $inv_in->quantity = $_quantity;
+        $inv_in->amount = $_quantity * $_unit_price;
+        $inv_in->date_inv = $_date;
+        $inv_in->insertInventoryIn();
     }
+
 
     public function insertOut($_product_id, $_date, $_quantity = 0)
     {

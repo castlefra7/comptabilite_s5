@@ -1,8 +1,11 @@
+<?php
+$currDt = new DateTime();
+?>
 <div class="container">
     <div class="row">
         <div class="col-md-6">
             <h1>Entrée de stock</h1>
-            <form action="/inv/in" method="post">
+            <form action="<?php echo base_url("/inv/in") ?>" method="post">
                 <div class="form-group">
                     <label for="">Produit</label>
                     <select name="product" id="" class="form-control form-control-sm">
@@ -13,7 +16,7 @@
                 </div>
                 <div class="form-group">
                     <label for="">Date entrée</label>
-                    <input name="date" class="form-control form-control-sm" type="date">
+                    <input name="date" class="form-control form-control-sm" type="date" value="<?php echo $currDt->format("Y-m-d"); ?>">
                 </div>
                 <div class="form-group">
                     <label for="">Prix Unitaire</label>

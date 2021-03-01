@@ -7,7 +7,20 @@ class Cmup_model extends Base_Model {
     public $date_cmup;
 
     public function calculateCmup($product_id) {
-        // (sum(montantEntree) - sum(montantSortie)) / (sum(quantiteEntree) -sum(quantiteSortie))
+        $sql = "select ((select sum(amount) from inventory_in where product_id = %d) - (select sum(amount) from inventory_out where product_id = %d)) / ((select sum(quantity) from inventory_in where product_id = %d) - (select sum(quantity) from inventory_out where product_id = %d)) as cmup";
+        $sql = sprintf($sql, $product_id, $product_id, $product_id, $product_id);
+        $query = $this->db->query($sql);
+        $row = $query->row_array();
+        if($row) {
+            return $row["cmup"];
+        }
+        return 0;
+    }
+
+    public function insert() {
+        $sql = "insert into cmup (product_id, amount, date_cmup) values (%d, %d, %s)";
+        $sql = sprintf($sql,$this->id, $this->amount, $this->date_cmup);
+        $this->db->query($sql);
     }
 
     public function getLastCmup($product_id) {
