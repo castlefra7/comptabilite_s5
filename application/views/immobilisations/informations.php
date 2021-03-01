@@ -96,7 +96,7 @@ if (isset($_GET["period"])) {
 
                 <div class="form-group">
                     <label for="">Montant:</label>
-                    <input readonly type="text" class="form-control form-control-sm" value="<?php echo $currentAmount; ?>">
+                    <input readonly type="text" class="form-control input-lg" value="<?php echo format_number($currentAmount); ?>">
                 </div>
             </div>
 
@@ -164,26 +164,26 @@ if (isset($_GET["period"])) {
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Valeur initiale</th>
-                            <th scope="col">Cumul début</th>
-                            <th scope="col">Dotation</th>
-                            <th scope="col">Cumul fin</th>
-                            <th scope="col">taux dégressif</th>
-                            <th scope="col">taux linéaire</th>
-                            <th scope="col">Valeur nette</th>
+                            <th scope="col" class="text-right">Valeur initiale</th>
+                            <th scope="col" class="text-right">Cumul début</th>
+                            <th scope="col" class="text-right">Dotation</th>
+                            <th scope="col" class="text-right">Cumul fin</th>
+                            <th scope="col" class="text-right">taux dégressif</th>
+                            <th scope="col" class="text-right">taux linéaire</th>
+                            <th scope="col" class="text-right">Valeur nette</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php for ($iA = 0; $iA < $lengthDeg; $iA++) { ?>
                             <tr>
-                                <td><?php echo format_number($amortissementsDeg[$iA]->getInitialValue()); ?></td>
-                                <td><?php echo $amortissementsDeg[$iA]->getCumulDebut(); ?></td>
-                                <td><?php echo $amortissementsDeg[$iA]->getDotation(); ?></td>
-                                <td><?php echo $amortissementsDeg[$iA]->getCumulFin(); ?></td>
-                                <td><?php echo $amortissementsDeg[$iA]->getTauxDegressif(); ?></td>
-                                <td><?php echo $amortissementsDeg[$iA]->getTauxLineaire(); ?></td>
-                                <td><?php echo $amortissementsDeg[$iA]->getValeurNette(); ?></td>
-                                <td><?php echo $amortissementsDeg[$iA]->getBegin_date()->format("d/m/y"); ?></td>
+                                <td class="text-right"><?php echo format_number($amortissementsDeg[$iA]->getInitialValue()); ?></td>
+                                <td class="text-right"><?php echo format_number($amortissementsDeg[$iA]->getCumulDebut()); ?></td>
+                                <td class="text-right"><?php echo format_number($amortissementsDeg[$iA]->getDotation()); ?></td>
+                                <td class="text-right"><?php echo format_number($amortissementsDeg[$iA]->getCumulFin()); ?></td>
+                                <td class="text-right"><?php echo format_number($amortissementsDeg[$iA]->getTauxDegressif()); ?></td>
+                                <td class="text-right"><?php echo format_number($amortissementsDeg[$iA]->getTauxLineaire()); ?></td>
+                                <td class="text-right"><?php echo format_number($amortissementsDeg[$iA]->getValeurNette()); ?></td>
+                                <td class="text-right"><?php echo $amortissementsDeg[$iA]->getBegin_date()->format("d/m/y"); ?></td>
                             </tr>
                         <?php } ?>
                     </tbody>
