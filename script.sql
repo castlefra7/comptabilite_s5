@@ -1,3 +1,4 @@
+drop database if exists immobilisation;
 create database immobilisation;
 use immobilisation;
 
@@ -30,7 +31,7 @@ create table inventories (
     id int primary key auto_increment,
     immo_id int,
     inv_date datetime,
-    inv_state varchar(10),
+    inv_state enum("Inutilisable", "Mauvais", "moyen", "bon"),
     description text,
     foreign key (immo_id) references immobilisations(id)
 );
@@ -64,7 +65,6 @@ create table products (
     unique(code)
 );
 
-
 create table inventory_in (
     id int primary key auto_increment,
     product_id int,
@@ -74,7 +74,6 @@ create table inventory_in (
     date_in date,
     foreign key (product_id) references products(id)
 );
-
 
 create table inventory_out (
     id int primary key auto_increment,
@@ -86,7 +85,6 @@ create table inventory_out (
     foreign key (product_id) references products(id)
 );
 
-
 create table cmup (
     id int primary key auto_increment,
     product_id int,
@@ -95,25 +93,79 @@ create table cmup (
     foreign key (product_id) references products(id)
 );
 
-create view all_entries as (select product_id, quantity, amount, unit_price, date_out as date_inv, "out" as type from inventory_out) union all (select product_id, quantity, amount, unit_price, date_in as date_inv, "in" as type from inventory_in)
+create view all_entries as 
+(
+    select 
+        product_id, 
+        quantity, 
+        amount, 
+        unit_price, 
+        date_out as date_inv, 
+        "out" as type 
+    from inventory_out
+) 
+    union all 
+(
+    select 
+        product_id, 
+        quantity, 
+        amount, 
+        unit_price, 
+        date_in as date_inv, 
+        "in" as type 
+    from inventory_in
+);
 
 
 select (select ((select sum(amount) as sum_ins from inventory_in where product_id = 1) - (select sum(amount) as sum_out from inventory_out where product_id = 1)))  as amount, ((select sum(quantity) as sum_ins from inventory_in where product_id = 1) - (select sum(quantity) as sum_out from inventory_out where product_id = 1)) as quantity, -1 as unit_price, -1 as product_id;
 
+insert into products (name, inventory_method, code) values 
+('Imprimante', 'CMUP', 'p001'),
+('Encre Laser', 'CMUP', 'p002'),
+('Unite Centrale', 'CMUP', 'p003'),
+('Clavier', 'CMUP', 'p004');
 
+insert into inventory_in (product_id, unit_price, quantity, amount, date_in) values 
+(1, 5000, 5, 25000, "2021-02-01"),
+(1, 5500, 10, 55000, "2021-02-02"),
+(1, 5000, 100, 500000, "2021-02-03");
 
+insert into inventory_out (product_id, unit_price, quantity, amount, date_out) values 
+(1, 5000, 5, 25000, "2021-02-05");
 
+INSERT INTO suppliers (name) values 
+("Mater auto"),
+("Henri Fraise"),
+("SICAM");
 
+INSERT INTO services (name) VALUES
+("Comptabilté"),
+("Tresorerie"),
+("Ressources Humaines");
 
-insert into products (name, inventory_method, code) values ('imprimante', 'CMUP', 'p001');
-insert into inventory_in (product_id, unit_price, quantity, amount, date_in) values (1, 5000, 5, 25000, "2021-02-01");
-insert into inventory_in (product_id, unit_price, quantity, amount, date_in) values (1, 5500, 10, 55000, "2021-02-02");
-insert into inventory_in (product_id, unit_price, quantity, amount, date_in) values (1, 5000, 100, 500000, "2021-02-03");
+INSERT INTO immobilisations (code, designation, buy_date, usage_date, supplier_id, buy_price, amortissed_year, amortissed_rate, amortissed_type) VALUES
+("i001", "Toyota V8", "2021-02-01", "2021-02-02", "1", 160000000, 5, 20, "1"),
+("i002", "Pneus de rechange", "2021-02-01", "2021-02-01", "2", 60000, 6, 20, "2"),
+("i003", "Test", "2021-02-01", "2021-02-01", "1", 160000000, 7, 20, "1");
 
+INSERT INTO inventories (immo_id, inv_date, inv_state, description) values
+(1, "2021-03-01", "Moyen", "Mila manolo pompe essence"),
+(2, "2021-03-01", "Bon", "RAS"),
+(3, "2021-03-01", "Moyen", "Mila jerena matetitetika");
 
-insert into inventory_out (product_id, unit_price, quantity, amount, date_out) values (1, 5000, 5, 25000, "2021-02-05");
+INSERT INTO assignment_history (immo_id, assign_date, service_id, description) VALUES
+(1, "2021-03-01", 1, "Journaliere an'ny expert comptable"),
+(2, "2021-03-01", 1, "Anoloana ny pneu an expert comptable"),
+(3, "2021-03-01", 2, "Mijanona ao am tresor aloha");
 
+INSERT INTO maintenance_history (immo_id, description_repairer, maintenance_date_begin, maintenance_date_end, description_maintenance) VALUES
+(1, "Zozo Mecano", "2021-02-26", "2021-03-01", "Manadio Moteur");
 
+INSERT INTO inventory_in (product_id, unit_price, quantity, amount, date_in) VALUES
+(1, 80000, 3, 240000, "2021-02-12"),
+(2, 20000, 4, 80000, "2021-02-12"),
+(3, 3000000, 2, 6000000, "2021-02-12"),
+(4, 7000, 5, 30000, "2021-02-12");
 
--- insert into inventory_in (product_id, unit_price, quantity, amount, date_in) values (1, 5000, 2, 10000, '2021-01-29');
--- 
+INSERT INTO inventory_out (product_id, unit_price, quantity, amount, date_out) VALUES
+(4, 7000, 1, 7000, "2021-02-15");
