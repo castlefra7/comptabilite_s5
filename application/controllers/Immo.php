@@ -80,6 +80,18 @@ class Immo extends Base_Controller {
         $new_maint = $this->maintenance_model->instantiate($this->input->post("immo"), $this->input->post("repairer"), $this->input->post("date"),$this->input->post("desc"));
         $new_maint->insert();
         redirect("/immo/index");
+    }
 
+    public function insertInvPage() {
+        $data = array();
+        $data["content"] = "immobilisations/insert_inventory";
+        $data["immos"] = $this->immo_model->getAllImo();
+        $this->load->view($this->template, $data);
+    }
+
+    public function insertInv() {
+        $new_maint = $this->inv_model->instantiate($this->input->post("immo"), $this->input->post("date"), $this->input->post("state"),$this->input->post("desc"));
+        $new_maint->insert();
+        redirect("/immo/index");
     }
 }

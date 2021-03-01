@@ -132,4 +132,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('inventories/inv_model', 'immobilisations/assign_model', 'inventories/inventory_model', 'supplier_model', 'inventories/product_model', 'inventories/InventoryInfo_model', 'inventories/inventoryout_model', 'inventories/cmup_model', 'immobilisations/maintenance_model');
+$autoload['model'] = array('immobilisations/inv_model', 'immobilisations/assign_model', 'inventories/inventory_model', 'supplier_model', 'inventories/product_model', 'inventories/InventoryInfo_model', 'inventories/inventoryout_model', 'inventories/cmup_model', 'immobilisations/maintenance_model');
