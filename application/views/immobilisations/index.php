@@ -6,6 +6,7 @@
             <a class="btn btn-primary btn-sm" href="<?php echo base_url("immo/insertPage"); ?>">Saisi immobilisation</a>
             <a class="btn btn-primary btn-sm" href="<?php echo base_url("immo/insetMaintPage"); ?>">Saisi maintenance</a>
             <a class="btn btn-primary btn-sm" href="<?php echo base_url("immo/insertInvPage"); ?>">Saisi inventaire</a>
+            <a class="btn btn-primary btn-sm" href="<?php echo base_url("immo/insertAssignPage"); ?>">Saisi assignation</a>
 
             </div>
 

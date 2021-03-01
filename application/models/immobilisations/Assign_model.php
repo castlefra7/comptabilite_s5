@@ -8,6 +8,21 @@ class Assign_model extends Base_Model {
     public $description;
     public $service_name;
 
+    public function instantiate($_immo_id, $_assign_date, $_service_id, $_desc) {
+        $new_assign = new Assign_model();
+        $new_assign->immo_id = $_immo_id;
+        $new_assign->assign_date = $_assign_date;
+        $new_assign->service_id = $_service_id;
+        $new_assign->setDescription($_desc);
+        return $new_assign;
+    }
+    
+    public function insert() {
+        $sql = "insert into assignment_history (immo_id, assign_date, service_id, description) values (%d, %s, %d, %s)";
+        $sql = sprintf($sql, $this->immo_id, $this->db->escape($this->assign_date), $this->service_id,  $this->db->escape($this->description));
+        $this->db->query($sql);
+    }
+
     public function __toString()
     {
         return "Date: " . $this->getAssign_date() . " Service: " . $this->service_name;
@@ -69,6 +84,30 @@ class Assign_model extends Base_Model {
     public function setService_name($service_name)
     {
         $this->service_name = $service_name;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of immo_id
+     *
+     * @return  self
+     */ 
+    public function setImmo_id($immo_id)
+    {
+        $this->immo_id = $immo_id;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of description
+     *
+     * @return  self
+     */ 
+    public function setDescription($description)
+    {
+        $this->description = $description;
 
         return $this;
     }

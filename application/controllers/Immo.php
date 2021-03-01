@@ -7,7 +7,9 @@ class Immo extends Base_Controller {
         parent::__construct();
 
         $this->load->model("immobilisations/immo_model");
+        $this->load->model("immobilisations/service_model");
         $this->load->model("immobilisations/maintenance_model");
+        $this->load->model("immobilisations/assign_model");
         $this->load->model("supplier_model");
         
     }
@@ -91,6 +93,22 @@ class Immo extends Base_Controller {
 
     public function insertInv() {
         $new_maint = $this->inv_model->instantiate($this->input->post("immo"), $this->input->post("date"), $this->input->post("state"),$this->input->post("desc"));
+        $new_maint->insert();
+        redirect("/immo/index");
+    }
+
+
+
+    public function insertAssignPage() {
+        $data = array();
+        $data["content"] = "immobilisations/insert_assign";
+        $data["immos"] = $this->immo_model->getAllImo();
+        $data["services"] = $this->service_model->findAllServices();
+        $this->load->view($this->template, $data);
+    }
+
+    public function insertAssign() {
+        $new_maint = $this->assign_model->instantiate($this->input->post("immo"), $this->input->post("date"), $this->input->post("service"),$this->input->post("desc"));
         $new_maint->insert();
         redirect("/immo/index");
     }
