@@ -1,0 +1,242 @@
+<?php
+
+class AmortissementDegressif {
+    public $taux_lineaire_fixe;
+    public $nombre_annee_amort;
+    public $remaining_years;
+    public $prev_net_value = 0;
+    public $initial_value_fixe;
+    public $prev_cumule_fin = 0;
+    public $coefficient = 0;
+
+    public $period = 1;
+    public $date_mise_service = null;
+    public $current_periode_debut = null;
+    public $current_periode_fin = null;
+
+    public function getInitial_value() {
+        $_value = $this->prev_net_value;
+        if($this->prev_net_value == 0) {
+            $_value = $this->initial_value_fixe;
+        }
+        return $_value;
+    }
+
+    public function getNumberPeriod() {
+        $_period = $this->period;
+        $result = -1;
+        switch($_period) {
+            case 1:
+                $result = $this->nombre_annee_amort;
+                break;
+            case 2:
+                $result = $this->nombre_annee_amort * 12;
+                break;
+            default:
+                break;
+        }
+        return $result;
+    }
+
+    public function getTauxLineaireVariable() {
+        // if($this->period == 1) {
+        //     return (100 / $this->remaining_years) / 100;
+        // }
+        return (100 / $this->remaining_years) / 100;
+    }
+
+    public function getTauxDegressif() {
+        return $this->taux_lineaire_fixe * $this->coefficient;
+    }
+
+    public function getDotation() {
+        $_value = $this->prev_net_value;
+        if(($this->period == 1) && ($this->isSameYear())) {
+            $_value = $this->initial_value_fixe;
+        }
+        if(($this->period == 2) && $this->isSameYear() && $this->isSameMonth()) {
+            $_value = $this->initial_value_fixe;
+        }
+        $coeff = 1; 
+        if($this->period == 2 ) {
+            $coeff = $this->getLastDayOfMonthOfPeriod() / $this->getNumberDaysInThisYear();
+            // $coeff = 1 /12;
+        }
+        return $_value * (max($this->getTauxDegressif(), $this->getTauxLineaireVariable())) * $coeff;
+    }
+
+    public function getCumuleDebut() {
+        return $this->prev_cumule_fin;
+    }
+
+    public function getCumuleFin() {
+        return $this->getCumuleDebut() + $this->getDotation();
+    }
+
+    public function getNumberDaysInThisYear()
+    {
+        $year = $this->current_periode_debut->format("y");
+        $begin = new DateTime($year . "-01-01");
+        $end = new DateTime($year . "-12-31");
+        return $begin->diff($end)->format("%a")+1;
+    }
+
+
+    public function getNetValue() {
+        if(($this->period == 1) && ($this->isSameYear())) {
+            return $this->initial_value_fixe - $this->getDotation();
+        }
+        if(($this->period == 2) && $this->isSameYear() && $this->isSameMonth()) {
+            return $this->initial_value_fixe - $this->getDotation();
+        }
+        return $this->prev_net_value - $this->getDotation();
+    }
+
+    public function isSameYear() {
+        return $this->date_mise_service->format("Y") == $this->current_periode_debut->format("Y");
+    }
+
+    public function isSameMonth() {
+        return $this->date_mise_service->format("m") == $this->current_periode_debut->format("m");
+    }
+
+    public function getSpNumberDays()
+    {        
+        return $this->current_periode_debut->diff($this->current_periode_fin)->format("%a") + 1;
+    }
+
+    public function getLastDayOfMonthOfPeriod() {
+        return date("t", strtotime($this->current_periode_debut->format("y-m-d")));
+    }
+}
+
+
+
+
+
+    public function getAmortissementDegressif($code)
+    {
+        $result = array();
+        date_default_timezone_set("Africa/Nairobi");
+        $immo = $this->getImmo($code);
+        $valeur_initiale = $immo->getBuy_price();
+        $taux = $immo->getAmortissed_rate();
+        $nbre_annee_amort = $immo->getAmortissed_year();
+        $date_mise_service = $immo->getUsage_date();
+        $period = 1;
+
+        switch ($period) {
+            case 1:
+                $dtService = new DateTime($date_mise_service);
+                $ammort = new AmortissementDegressif();
+                $ammort->period = $period;
+                $ammort->taux_lineaire_fixe = $taux;
+                $ammort->nombre_annee_amort = $nbre_annee_amort;
+                $ammort->remaining_years = $nbre_annee_amort;
+                $ammort->date_mise_service = $dtService;
+                $ammort->initial_value_fixe = $valeur_initiale;
+                $ammort->current_periode_debut = $dtService;
+                $ammort->current_periode_fin = new DateTime($dtService->format("Y") . "-12-31");
+                $ammort->coefficient = $immo->coefficient;
+
+                $prev_net_value = $ammort->getNetValue();
+                $prev_cumule_fin = $ammort->getCumuleFin();
+                $prev_year = $ammort->remaining_years - 1;
+                $prev_date_debut = $ammort->current_periode_debut;
+                $result[] = $ammort;
+
+                $current_aneee = $dtService->format("Y");
+
+                for ($iTer = 0; $iTer < $ammort->getNumberPeriod(); $iTer++, $current_aneee++) {
+                    if ($prev_year == 0) break;
+                    $ammort = new AmortissementDegressif();
+                    $ammort->period = $period;
+                    $ammort->taux_lineaire_fixe = $taux;
+                    $ammort->nombre_annee_amort = $nbre_annee_amort;
+                    $ammort->remaining_years = $prev_year;
+                    $ammort->date_mise_service = new DateTime($date_mise_service);
+                    $ammort->initial_value_fixe = $valeur_initiale;
+                    $ammort->coefficient = $immo->coefficient;
+                    $ammort->prev_net_value = $prev_net_value;
+                    $ammort->prev_cumule_fin = $prev_cumule_fin;
+
+                    $dt = new DateTime(date("Y-m-d", strtotime("+1 years", strtotime($prev_date_debut->format("Y-m-d")))));
+                    $ammort->current_periode_debut =  new DateTime($dt->format("Y") . "-01-01");
+
+                    if ($current_aneee == ($dtService->format("Y") + $nbre_annee_amort)) {
+                        $dtFin =  new DateTime(date("Y-m-d", strtotime("+1 days", strtotime($dtService->format("y-m-d")))));
+                        $ammort->current_periode_fin = new DateTime($current_aneee . "-" . $dtFin->format("m") . "-" .  $dtFin->format("d"));
+                    } else {
+                        $ammort->current_periode_fin =  new DateTime($dt->format("Y") . "-12-31");
+                    }
+
+
+                    $prev_date_debut = $ammort->current_periode_debut;
+                    $prev_year = $ammort->remaining_years - 1;
+
+                    $prev_net_value = $ammort->getNetValue();
+                    $prev_cumule_fin = $ammort->getCumuleFin();
+                    $result[] = $ammort;
+                }
+                break;
+            case 2:
+                $dtService = new DateTime($date_mise_service);
+                $ammort = new AmortissementDegressif();
+                $ammort->period = $period;
+                $ammort->taux_lineaire_fixe = $taux;
+                $ammort->nombre_annee_amort = $nbre_annee_amort;
+                $ammort->remaining_years = $nbre_annee_amort;
+                $ammort->date_mise_service = $dtService;
+                $ammort->initial_value_fixe = $valeur_initiale;
+                $ammort->current_periode_debut = $dtService;
+                $ammort->current_periode_fin = new DateTime($dtService->format("Y") . "-12-31");
+                $ammort->coefficient = $immo->coefficient;
+
+                $prev_net_value = $ammort->getNetValue();
+                $prev_cumule_fin = $ammort->getCumuleFin();
+                $prev_year = $ammort->remaining_years;
+                $prev_date_debut = $ammort->current_periode_debut;
+                $result[] = $ammort;
+
+                $current_aneee = $dtService->format("Y");
+                $current_month = new DateTime($dtService->format("Y-m-d"));
+                
+                for ($iTer = 0; $iTer < $ammort->getNumberPeriod(); $iTer++, $current_aneee++) {
+                    if ($prev_year == 0) break;
+                    $ammort = new AmortissementDegressif();
+                    $ammort->period = $period;
+                    $ammort->taux_lineaire_fixe = $taux;
+                    $ammort->nombre_annee_amort = $nbre_annee_amort;
+                    $ammort->remaining_years = $prev_year;
+                    $ammort->date_mise_service = new DateTime($date_mise_service);
+                    $ammort->initial_value_fixe = $valeur_initiale;
+                    $ammort->coefficient = $immo->coefficient;
+                    $ammort->prev_net_value = $prev_net_value;
+                    $ammort->prev_cumule_fin = $prev_cumule_fin;
+                    $current_month  = new DateTime(date("Y-m-d", strtotime("+1 months", strtotime($current_month->format("y-m-d")))));
+
+
+                    $ammort->current_periode_debut =  new DateTime($current_month->format("Y") . "-" . $current_month->format("m") . "-01");
+
+                    // if ($iTer >= $ammort->getNumberPeriod() - 1) {
+                    //     $ammort->current_periode_fin = new DateTime($current_month->format("Y") . "-" . $current_month->format("m") . "-$number_days_last_year");
+                    // } else {
+                        $ammort->current_periode_fin = new DateTime($current_month->format("Y") . "-" . $current_month->format("m") . "-" . $ammort->getLastDayOfMonthOfPeriod());
+                    // }
+
+
+                    $prev_date_debut = $ammort->current_periode_debut;
+                    if($ammort->current_periode_debut->format("m") == 12) {
+                        $prev_year = $ammort->remaining_years - 1;
+                    }
+
+                    $prev_net_value = $ammort->getNetValue();
+                    $prev_cumule_fin = $ammort->getCumuleFin();
+                    $result[] = $ammort;
+                }
+                break;
+            default:
+                break;
+        }
+        return $result;
+    }
