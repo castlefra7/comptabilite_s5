@@ -52,4 +52,24 @@ class Assign_model extends Base_Model {
     {
         return $this->description;
     }
+
+    /**
+     * Get the value of service_name
+     */ 
+    public function getService_name()
+    {
+        return $this->service_name;
+    }
+
+    /**
+     * Set the value of service_name
+     *
+     * @return  self
+     */ 
+    public function setService_name($service_name)
+    {
+        $this->service_name = $service_name;
+
+        return $this;
+    }
 }

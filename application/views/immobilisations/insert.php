@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-12">
             <h1>Insertion d'immobilisation</h1>
-            <form action="/immo/insert" method="post">
+            <form action="<?php echo base_url('immo/insert'); ?>" method="post">
                 <div class="form-group">
                     <label for="">Code</label>
                     <input value="c004" name="code" type="text" class="form-control form-control-sm">

@@ -2,6 +2,7 @@
 $lengthDeg = count($amortissementsDeg);
 $lengthLin = count($amortLin);
 $period = 1;
+$currentDate = new DateTime();
 if (isset($_GET["period"])) {
     $period = $_GET["period"];
 }
@@ -28,7 +29,7 @@ if (isset($_GET["period"])) {
                 </div>
                 <div class="form-group">
                     <label for="">Fournisseur:</label>
-                    <input readonly value="<?php echo $immo->getSupplier_id(); ?>" type="text" class="form-control form-control-sm">
+                    <input readonly value="<?php echo $immo->supplier_name; ?>" type="text" class="form-control form-control-sm">
                 </div>
                 <div class="form-group">
                     <label for="">Prix d'achat:</label>
@@ -88,7 +89,7 @@ if (isset($_GET["period"])) {
                 <form action="/immo/detailsInfo/<?php echo $immo->code; // TODO CURRENT DATE ?>" style="width: 12rem;">
                     <div class="form-group">
                         <label for="">Date:</label>
-                        <input name="date" type="date" value="2021-03-01" class="form-control form-control-sm">
+                        <input name="date" type="date" value="<?php echo $currentDate->format("Y-m-d"); ?>" class="form-control form-control-sm">
                     </div>
                     <input type="submit" class="btn btn-block btn-sm btn-primary" value="Valider">
                 </form>

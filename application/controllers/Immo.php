@@ -23,6 +23,9 @@ class Immo extends Base_Controller {
         $data = array();
         $data["content"] = "immobilisations/histories";
         $data["immo"] =  $this->immo_model->getImmo($code);
+        $data["invHist"] = $this->immo_model->getInventoryHistory($code);
+        $data["maintHist"] = $this->immo_model->geMaintHistory($code);
+        $data["assignHist"] = $this->immo_model->getAssignHistory($code);
 
         $this->load->view($this->template, $data);
     }
@@ -40,7 +43,9 @@ class Immo extends Base_Controller {
         $data["amortissementsDeg"] = $this->immo_model->getAmortissementsDegressif($code, $period);
         $data["amortLin"] = $this->immo_model->getAmortissementsLineaire($code, $period);
         $date = $this->input->get("date");
-        if($date == null) $date = "2021-03-01"; // TODO GET CURRENT DATE
+        $currentDate = new DateTime();
+
+        if($date == null) $date = $currentDate->format("Y-m-d"); // TODO GET CURRENT DATE
 
         $data["currentAmount"] = $this->immo_model->getCurrentAmount($code, $date);
 
@@ -48,9 +53,10 @@ class Immo extends Base_Controller {
     }
 
     public function insert() {
-        var_dump($this->input->post("years"));
         $new_immo = $this->immo_model->instantiate($this->input->post("code"), $this->input->post("design"), $this->input->post("buy-date"), $this->input->post("usage-date"), $this->input->post("price"), $this->input->post("years"), $this->input->post("type"), $this->input->post("suppl"), $this->input->post("coeff"));
         $new_immo->insert();
+        // var_dump($new_immo);
+    
 
         redirect("/immo/index");
     }

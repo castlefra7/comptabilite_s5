@@ -33,7 +33,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr></tr>
+                    <?php foreach($invHist as $inv) { ?>
+                    <tr>
+                        <td><?php echo $inv->getInv_date(); ?></td>
+                        <td><?php echo $inv->getInv_state(); ?></td>
+                        <td><?php echo $inv->getDescription(); ?></td>
+                    </tr>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
@@ -44,12 +50,18 @@
                     <thead>
                         <tr>
                             <th scope="col">Date</th>
-                            <th scope="col">Etat</th>
+                            <th scope="col">Service</th>
                             <th scope="col">Description</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr></tr>
+                        <?php foreach($assignHist as $assign) { ?>
+                        <tr>
+                            <td><?php echo $assign->getAssign_date(); ?></td>
+                            <td><?php echo $assign->getService_name(); ?></td>
+                            <td><?php echo $assign->getDescription(); ?></td>
+                        </tr>
+                        <?php } ?>
                     </tbody>
                 </table>
             </div>
@@ -60,12 +72,18 @@
                 <thead>
                     <tr>
                         <th scope="col">Date</th>
-                        <th scope="col">Etat</th>
+                        <th scope="col">Réparateur</th>
                         <th scope="col">Description</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr></tr>
+                    <?php foreach($maintHist as $maint) { ?>
+                    <tr>
+                        <td><?php echo $maint->getMaintenance_date_begin(); ?></td>
+                        <td><?php echo $maint->getDescription_repairer(); ?></td>
+                        <td><?php echo $maint->getDescription_maintenance(); ?></td>
+                    </tr>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
