@@ -7,6 +7,7 @@ class Immo extends Base_Controller {
         parent::__construct();
 
         $this->load->model("immobilisations/immo_model");
+        $this->load->model("immobilisations/maintenance_model");
         $this->load->model("supplier_model");
         
     }
@@ -66,5 +67,19 @@ class Immo extends Base_Controller {
         $data["content"] = "immobilisations/insert";
         $data["suppliers"] = $this->supplier_model->getAllSuppliers();
         $this->load->view($this->template, $data);
+    }
+
+    public function insetMaintPage() {
+        $data = array();
+        $data["content"] = "immobilisations/insert_maintenance";
+        $data["immos"] = $this->immo_model->getAllImo();
+        $this->load->view($this->template, $data);
+    }
+
+    public function insertMaint() {
+        $new_maint = $this->maintenance_model->instantiate($this->input->post("immo"), $this->input->post("repairer"), $this->input->post("date"),$this->input->post("desc"));
+        $new_maint->insert();
+        redirect("/immo/index");
+
     }
 }

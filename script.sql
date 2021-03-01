@@ -23,6 +23,7 @@ create table immobilisations (
     amortissed_year smallint,
     amortissed_rate double,
     amortissed_type  enum('1', '2'),
+    coefficient double,
     unique(code),
     foreign key (supplier_id) references suppliers(id)
 );

@@ -13,6 +13,22 @@ class Maintenance_model extends Base_Model {
         return "Date: " . $this->maintenance_date_begin . " Description: " . $this->description_maintenance;
     }
 
+    public function instantiate($_immo_id, $_repairer, $_date, $_desc) {
+        $new_maint = new Maintenance_model();
+        $new_maint->immo_id = $_immo_id;
+        $new_maint->description_repairer = $_repairer;
+        $new_maint->description_maintenance = $_desc;
+        $new_maint->maintenance_date_begin = $_date;
+        $new_maint->maintenance_date_end = $_date;
+        return $new_maint;
+    }
+
+    public function insert() {
+        $sql = "insert into maintenance_history(immo_id, description_repairer, maintenance_date_begin, maintenance_date_end, description_maintenance) values (%d, %s, %s, %s, %s)";
+        $sql = sprintf($sql, $this->immo_id, $this->db->escape($this->description_repairer), $this->db->escape($this->maintenance_date_begin), $this->db->escape($this->maintenance_date_end), $this->db->escape($this->description_maintenance));
+        $this->db->query($sql);
+
+    }
     
 
     /**
